@@ -17,7 +17,6 @@ export const getNotes = async (req, res) => {
 
 /**
  * Get note by Id
- *
  * @param   Request  req
  * @param   Response  res
  */
@@ -35,4 +34,30 @@ export const getNotesById = async (req, res) => {
       message: error.message || "OPS!"
     });
   }
+};
+
+/**
+ * Save note in the database
+ * @param   Request  req
+ * @param   Response  res
+ */
+export const postNote = async (req, res) => {
+  if (!req.body.title)
+    return res.status(400).send({
+      message: "Title is required"
+    });
+
+  try {
+    const { body } = req;
+
+    const newNote = new Notes({
+      title: body.title,
+      description: body.description,
+      label: body.label
+    });
+
+    const noteSave = await newNote.save();
+
+    res.status(200).json(noteSave);
+  } catch (error) {}
 };
