@@ -18,6 +18,6 @@ app.get("/", (req, res) => {
   res.json({ message: "API Notes App" });
 });
 
-app.use("/api/v1", NotesRouter);
+app.use("/api/v1/notes", NotesRouter);
 
 export default app;
