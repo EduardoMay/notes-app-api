@@ -1,5 +1,11 @@
-const getNotes = (req, res) => {
-  res.json({ message: "Falta integrar una base de datos :(" });
-};
+import Notes from "../models/Notes";
 
-export { getNotes };
+export const getNotes = async (req, res) => {
+  try {
+    const notes = await Notes.find();
+
+    res.status(200).json(notes);
+  } catch (error) {
+    res.status(400).json({ message: "UPS!" });
+  }
+};
