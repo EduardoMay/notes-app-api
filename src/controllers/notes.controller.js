@@ -5,13 +5,15 @@ import Notes from "../models/Notes";
  * @param   Request  req
  * @param   Response  res
  */
-export const getNotes = async (req, res) => {
+export const get = async (req, res) => {
   try {
     const notes = await Notes.find();
 
     res.status(200).json(notes);
   } catch (error) {
-    res.status(400).json({ message: "UPS!" });
+    res.status(500).json({
+      message: error.message || "OPS!"
+    });
   }
 };
 
@@ -20,9 +22,9 @@ export const getNotes = async (req, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const getNotesById = async (req, res) => {
+export const getById = async ({ params }, res) => {
   try {
-    const { id } = req.params;
+    const { id } = params;
 
     const note = await Notes.findById(id);
 
@@ -41,15 +43,13 @@ export const getNotesById = async (req, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const postNote = async (req, res) => {
-  if (!req.body.title)
+export const post = async ({ body }, res) => {
+  if (!body.title)
     return res.status(400).send({
       message: "Title is required"
     });
 
   try {
-    const { body } = req;
-
     const newNote = new Notes({
       title: body.title,
       description: body.description,
@@ -59,7 +59,11 @@ export const postNote = async (req, res) => {
     const noteSave = await newNote.save();
 
     res.status(200).json(noteSave);
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "OPS!"
+    });
+  }
 };
 
 /**
@@ -67,9 +71,9 @@ export const postNote = async (req, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const deleteNote = async (req, res) => {
+export const deleteById = async ({ params }, res) => {
   try {
-    const { id } = req.params;
+    const { id } = params;
 
     await Notes.findByIdAndDelete(id);
 
@@ -88,7 +92,7 @@ export const deleteNote = async (req, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const updateNote = async ({ params, body }, res) => {
+export const update = async ({ params, body }, res) => {
   try {
     const { id } = params;
 
