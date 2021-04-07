@@ -1,8 +1,8 @@
-const { Router } = require("express");
-const notesController = require("../controllers/notes.controller");
+import { Router } from "express";
+import { getNotes } from "../controllers/notes.controller";
 
 const router = new Router();
 
-router.get("/notes", notesController.getNotes);
+router.get("/notes", getNotes);
 
-module.exports = router;
+export default router;
