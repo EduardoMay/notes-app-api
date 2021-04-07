@@ -61,3 +61,24 @@ export const postNote = async (req, res) => {
     res.status(200).json(noteSave);
   } catch (error) {}
 };
+
+/**
+ * dELETE note by Id
+ * @param   Request  req
+ * @param   Response  res
+ */
+export const deleteNote = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    await Notes.findByIdAndDelete(id);
+
+    res.status(200).json({
+      message: "Nota eliminada correctamente"
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "OPS!"
+    });
+  }
+};
