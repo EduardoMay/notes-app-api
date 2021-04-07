@@ -82,3 +82,24 @@ export const deleteNote = async (req, res) => {
     });
   }
 };
+
+/**
+ * Update note by Id
+ * @param   Request  req
+ * @param   Response  res
+ */
+export const updateNote = async ({ params, body }, res) => {
+  try {
+    const { id } = params;
+
+    await Notes.findByIdAndUpdate(id, body);
+
+    res.json({
+      message: "Nota actualizado"
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "OPS!"
+    });
+  }
+};
