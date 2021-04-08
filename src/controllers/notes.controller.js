@@ -44,16 +44,19 @@ export const getById = async ({ params }, res) => {
  * @param   Response  res
  */
 export const post = async ({ body }, res) => {
-  if (!body.title)
+  const { title, description, label } = body;
+
+  if (!title) {
     return res.status(400).send({
       message: "Title is required"
     });
+  }
 
   try {
     const newNote = new Notes({
-      title: body.title,
-      description: body.description,
-      label: body.label
+      title: title,
+      description: description,
+      label: label
     });
 
     const noteSave = await newNote.save();
