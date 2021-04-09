@@ -13,7 +13,11 @@ const notesSchema = new Schema(
       trim: true
     },
     label: {
-      types: Number,
+      type: Number,
+      required: false
+    },
+    favorite: {
+      type: Boolean,
       required: false
     }
   },

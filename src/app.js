@@ -4,6 +4,7 @@ import morgan from "morgan";
 
 // Routes
 import NotesRouter from "./routes/notes";
+import FavoritesRouter from "./routes/Favorite";
 
 const app = express();
 
@@ -19,5 +20,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/notes", NotesRouter);
+app.use("/api/v1/favorites", FavoritesRouter);
 
 export default app;
