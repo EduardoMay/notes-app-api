@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import Notes from "../models/Notes";
 
 /**
@@ -5,7 +6,7 @@ import Notes from "../models/Notes";
  * @param   Request  req
  * @param   Response  res
  */
-export const get = async (req, res) => {
+export const get = async (req: Request, res: Response) => {
   try {
     const notes = await Notes.find();
 
@@ -22,7 +23,7 @@ export const get = async (req, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const getById = async ({ params }, res) => {
+export const getById = async ({ params }: Request, res: Response) => {
   try {
     const { id } = params;
 
@@ -43,7 +44,7 @@ export const getById = async ({ params }, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const post = async ({ body }, res) => {
+export const post = async ({ body }: Request, res: Response) => {
   const { title, description, label, favorite } = body;
 
   if (!title) {
@@ -75,7 +76,7 @@ export const post = async ({ body }, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const deleteById = async ({ params }, res) => {
+export const deleteById = async ({ params }: Request, res: Response) => {
   try {
     const { id } = params;
 
@@ -96,7 +97,7 @@ export const deleteById = async ({ params }, res) => {
  * @param   Request  req
  * @param   Response  res
  */
-export const update = async ({ params, body }, res) => {
+export const update = async ({ params, body }: Request, res: Response) => {
   try {
     const { id } = params;
 

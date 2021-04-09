@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { setFavorite } from "../controllers/favorites.controller";
 
-const router = new Router();
+const router = Router();
 
 router.put("/:id", setFavorite);
 

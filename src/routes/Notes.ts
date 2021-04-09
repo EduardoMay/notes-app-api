@@ -7,7 +7,7 @@ import {
   update
 } from "../controllers/notes.controller";
 
-const router = new Router();
+const router = Router();
 
 router.get("/", get);
 router.get("/:id", getById);

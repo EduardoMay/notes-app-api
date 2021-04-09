@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import Notes from "../models/Notes";
 
 /**
@@ -5,7 +6,7 @@ import Notes from "../models/Notes";
  * @param   Request  req
  * @param   Response  res
  */
-export const setFavorite = async ({ params, body }, res) => {
+export const setFavorite = async ({ params, body }: Request, res: Response) => {
   try {
     const { id } = params;
 
