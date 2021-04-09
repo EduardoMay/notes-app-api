@@ -44,7 +44,7 @@ export const getById = async ({ params }, res) => {
  * @param   Response  res
  */
 export const post = async ({ body }, res) => {
-  const { title, description, label } = body;
+  const { title, description, label, favorite } = body;
 
   if (!title) {
     return res.status(400).send({
@@ -54,9 +54,10 @@ export const post = async ({ body }, res) => {
 
   try {
     const newNote = new Notes({
-      title: title,
-      description: description,
-      label: label
+      title,
+      description,
+      label,
+      favorite
     });
 
     const noteSave = await newNote.save();
