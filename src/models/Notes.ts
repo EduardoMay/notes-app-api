@@ -12,12 +12,12 @@ const notesSchema = new Schema(
       required: false,
       trim: true
     },
-    label: {
-      type: Number,
-      required: false
-    },
     favorite: {
       type: Boolean,
+      required: false
+    },
+    label: {
+      type: Object,
       required: false
     }
   },
