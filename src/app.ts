@@ -3,7 +3,7 @@ import cors from "cors";
 import morgan from "morgan";
 
 // Routes
-import NotesRouter from "./routes/notes";
+import NotesRouter from "./routes/Notes";
 import FavoritesRouter from "./routes/Favorite";
 import LabelsRouter from "./routes/Labels";
 

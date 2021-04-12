@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node ./dist/index.js",
-    "dev": "nodemon --config nodemon.json src/index.ts",
+    "dev": "nodemon --config nodemon.json ./src/index.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
     "clean": "rm -rf dist",
-    "build": "npm run clean && babel -d ./dist ./src -s --extensions \".ts, .tsx\" --source-maps inline"
+    "build": "npm run clean && babel src --out-dir dist --extensions \".ts, .tsx\" --source-maps inline"
   },
   "keywords": [],
   "author": "",
