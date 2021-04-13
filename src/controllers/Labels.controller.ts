@@ -52,6 +52,26 @@ export const get = async (req: Request, res: Response) => {
 };
 
 /**
+ * Get label by Id
+ *
+ * @param   Request   params
+ * @param   Response  res
+ */
+export const getById = async ({ params }: Request, res: Response) => {
+  try {
+    const { id } = params;
+
+    const label = await Labels.findById(id);
+
+    res.status(200).json(label);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message || "OPS!"
+    });
+  }
+};
+
+/**
  * Delete Labels
  * @param   Request  req
  * @param   Response  res
