@@ -8,7 +8,9 @@
     "dev": "nodemon --config nodemon.json ./src/index.ts",
     "dev:debug": "nodemon --config nodemon.json --inspect-brk src/index.ts",
     "clean": "rm -rf dist",
-    "build": "npm run clean && babel src --out-dir dist --extensions \".ts, .tsx\" --source-maps inline"
+    "build": "npm run clean && babel src --out-dir dist --extensions \".ts, .tsx\" --source-maps inline",
+    "docker:build": "docker build -t notes-api .",
+    "docker:run": "docker run -d -it -p 3005:3005 notes-api"
   },
   "keywords": [],
   "author": "",
