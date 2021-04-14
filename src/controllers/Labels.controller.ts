@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Label } from "src/interfaces/Label";
 import Labels from "../models/Labels";
 
 /**
@@ -20,7 +21,7 @@ export const post = async ({ body }: Request, res: Response) => {
       color
     });
 
-    const labelSave = await setLabel.save();
+    const labelSave: Label = await setLabel.save();
 
     res.status(200).json(labelSave);
   } catch (error) {
@@ -37,9 +38,9 @@ export const post = async ({ body }: Request, res: Response) => {
  */
 export const get = async (req: Request, res: Response) => {
   try {
-    const labels = await Labels.find();
+    const labels: Label[] = await Labels.find();
 
-    const addTotal = labels.map((label: any) => {
+    const addTotal: Label[] = labels.map((label: any) => {
       return { ...label._doc, totalNotes: label.notes.length };
     });
 
@@ -61,7 +62,7 @@ export const getById = async ({ params }: Request, res: Response) => {
   try {
     const { id } = params;
 
-    const label = await Labels.findById(id);
+    const label: Label = await Labels.findById(id);
 
     res.status(200).json(label);
   } catch (error) {

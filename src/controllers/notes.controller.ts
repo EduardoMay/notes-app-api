@@ -1,4 +1,7 @@
 import { Request, Response } from "express";
+import { Label } from "src/interfaces/Label";
+import { Note } from "src/interfaces/Note";
+import Labels from "../models/Labels";
 import Notes from "../models/Notes";
 
 /**
@@ -8,7 +11,7 @@ import Notes from "../models/Notes";
  */
 export const get = async (req: Request, res: Response) => {
   try {
-    const notes = await Notes.find();
+    const notes: Note[] = await Notes.find();
 
     res.status(200).json(notes);
   } catch (error) {
@@ -27,7 +30,7 @@ export const getById = async ({ params }: Request, res: Response) => {
   try {
     const { id } = params;
 
-    const note = await Notes.findById(id);
+    const note: Note = await Notes.findById(id);
 
     if (!note) return res.status(400).send({ message: "Nota no encontrada" });
 
@@ -46,6 +49,8 @@ export const getById = async ({ params }: Request, res: Response) => {
  */
 export const post = async ({ body }: Request, res: Response) => {
   const { title, description, label, favorite } = body;
+  const { label_id } = label;
+  let saveLabel;
 
   if (!title) {
     return res.status(400).send({
@@ -61,9 +66,17 @@ export const post = async ({ body }: Request, res: Response) => {
       favorite
     });
 
-    const noteSave = await newNote.save();
+    const noteSave: Note = await newNote.save();
 
-    res.status(200).json(noteSave);
+    if (label_id) {
+      const label: Label = await Labels.findById(label_id);
+
+      label.notes.push(noteSave._id);
+
+      saveLabel = await Labels.findByIdAndUpdate(label_id, label);
+    }
+
+    res.status(200).json({ noteSave, saveLabel });
   } catch (error) {
     res.status(500).json({
       message: error.message || "OPS!"
