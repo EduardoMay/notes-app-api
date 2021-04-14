@@ -1,0 +1,29 @@
+{
+  "note": {
+    "_id": "string",
+    "title": "string",
+    "description": {
+      "type": "string",
+      "required": false
+    },
+    "favorite": "boolean",
+    "label": {
+      "_id": "string",
+      "description": "string",
+      "color": "string",
+      "notes": {
+        "type": "array of strings",
+        "required": false
+      }
+    }
+  },
+  "label": {
+    "_id": "string",
+    "description": "string",
+    "color": "string",
+    "notes": {
+      "type": "array of strings",
+      "required": false
+    }
+  }
+}
