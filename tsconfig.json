@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "noEmit": true,
+    "moduleResolution": "node",
+    "strict": true
+  },
+  "include": ["./src/**/*"]
+}
