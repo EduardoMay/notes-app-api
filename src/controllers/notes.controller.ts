@@ -49,7 +49,6 @@ export const getById = async ({ params }: Request, res: Response) => {
  */
 export const post = async ({ body }: Request, res: Response) => {
   const { title, description, label, favorite } = body;
-  const { label_id } = label;
   let saveLabel;
 
   if (!title) {
@@ -68,12 +67,13 @@ export const post = async ({ body }: Request, res: Response) => {
 
     const noteSave: Note = await newNote.save();
 
-    if (label_id) {
-      const label: Label = await Labels.findById(label_id);
+    if (label) {
+      const { _id } = label;
+      const findLabel: Label = await Labels.findById(_id);
 
-      label.notes.push(noteSave._id);
+      findLabel.notes.push(noteSave._id);
 
-      saveLabel = await Labels.findByIdAndUpdate(label_id, label);
+      saveLabel = await Labels.findByIdAndUpdate(_id, findLabel);
     }
 
     res.status(200).json({ noteSave, saveLabel });
