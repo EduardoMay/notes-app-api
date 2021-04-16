@@ -3,6 +3,7 @@ import { Label } from "src/interfaces/Label";
 import { Note } from "src/interfaces/Note";
 import Labels from "../models/Labels";
 import Notes from "../models/Notes";
+import _ from "lodash";
 
 /**
  * Get all notes
@@ -68,12 +69,12 @@ export const post = async ({ body }: Request, res: Response) => {
     const noteSave: Note = await newNote.save();
 
     if (label) {
-      const { _id } = label;
-      const findLabel: Label = await Labels.findById(_id);
+      const findLabel: Label = await Labels.findById(label);
+      const addNoteId = { id: noteSave._id };
 
-      findLabel.notes.push(noteSave._id);
+      findLabel.notes.push(addNoteId);
 
-      saveLabel = await Labels.findByIdAndUpdate(_id, findLabel);
+      saveLabel = await Labels.findByIdAndUpdate(label, findLabel);
     }
 
     res.status(200).json({ noteSave, saveLabel });
@@ -113,13 +114,55 @@ export const deleteById = async ({ params }: Request, res: Response) => {
 export const update = async ({ params, body }: Request, res: Response) => {
   try {
     const { id } = params;
+    const { label } = body;
 
-    await Notes.findByIdAndUpdate(id, body);
+    const { label: oldLabel } = await Notes.findByIdAndUpdate(id, body);
+
+    if (oldLabel !== "") {
+      const { _doc: labelSelected } = await Labels.findById(oldLabel);
+
+      if (String(labelSelected._id) !== label) {
+        const { notes } = labelSelected;
+
+        const oldNotesLabels = _.filter(
+          notes,
+          (n) => String(n.id) !== String(id)
+        );
+
+        const { _doc: newLabelSelected } = await Labels.findById(label);
+
+        newLabelSelected.notes.push({ id: id });
+
+        console.log("------- Remove Old Note of Label -------");
+        console.log(oldNotesLabels);
+        await Labels.findByIdAndUpdate(oldLabel, { notes: oldNotesLabels });
+
+        console.log("------- Set New Note to Label -------");
+        console.log(newLabelSelected);
+
+        await Labels.findByIdAndUpdate(label, {
+          notes: newLabelSelected.notes
+        });
+      }
+    } else {
+      const { _doc: newLabelSelected } = await Labels.findById(label);
+
+      newLabelSelected.notes.push({ id: id });
+
+      console.log("------- Add New Note to Label -------");
+      console.log(newLabelSelected);
+
+      await Labels.findByIdAndUpdate(label, {
+        notes: newLabelSelected.notes
+      });
+    }
 
     res.json({
-      message: "Nota actualizado"
+      message: "Nota actualizada"
     });
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message || "OPS!"
     });
